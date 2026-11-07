@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Donor Login - Vinayaka Chavithi Annadanam Finder{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5" style="border: 1px solid #FFE0B2 !important;">
+                <div class="text-center mb-4">
+                    <div class="d-inline-flex p-3 rounded-circle bg-warning bg-opacity-25 text-danger fs-2 mb-2">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                    </div>
+                    <h3 class="cinzel-font fw-bold text-dark mb-1">Donor Sign In</h3>
+                    <p class="text-muted small">Sign in with your registered mobile number to manage your posted Annadanam events</p>
+                </div>
+
+                <form action="{{ url_for('donor_login') }}" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-secondary">Registered Mobile Number <span class="text-danger">*</span></label>
+                        <input type="tel" name="mobile" class="form-control" placeholder="e.g. 9848012345" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold text-secondary">Password <span class="text-danger">*</span></label>
+                        <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                    </div>
+
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-danger py-2 fw-bold shadow-sm">
+                            <i class="fa-solid fa-lock-open me-1"></i> Sign In to Donor Dashboard
+                        </button>
+                    </div>
+
+                    <div class="text-center small text-muted">
+                        Don't have an account? <a href="{{ url_for('donor_register') }}" class="text-danger fw-bold">Register as Donor</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

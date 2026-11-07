@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Vinayaka Chavithi 9 Days Annadanam Information and Location Finder{% endblock %}</title>
+    
+    <!-- Meta tags for sharing -->
+    <meta name="description" content="Find and share Annadanam (free food distribution) locations during 9 days of Vinayaka Chavithi celebrations. Connect donors and devotees.">
+    <meta property="og:title" content="Vinayaka Chavithi 9 Days Annadanam Finder">
+    <meta property="og:description" content="Discover nearby Annadanam food distribution locations, timings, and menus during Vinayaka Chavithi Navaratri.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Leaflet CSS for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <!-- Sacred Top Bar -->
+    <div class="top-sacred-bar text-center py-1">
+        <div class="container d-flex justify-content-between align-items-center">
+            <span class="small sacred-text d-none d-md-inline">
+                <i class="fa-solid fa-om me-1"></i> ఓం శ్రీ గం గణపతయే నమః | Om Gam Ganapataye Namaha
+            </span>
+            <span class="small fw-bold mx-auto mx-md-0 sacred-quote">
+                <i class="fa-solid fa-bowl-food me-1"></i> అన్నదాత సుఖీభవ | Annadata Sukhibhava • Vinayaka Navaratri Special
+            </span>
+            <div class="small d-none d-lg-flex align-items-center gap-3">
+                <a href="{{ url_for('about') }}" class="text-white text-decoration-none hover-link">
+                    <i class="fa-solid fa-circle-info me-1"></i> 9 Days Significance
+                </a>
+                <a href="{{ url_for('admin_login') }}" class="text-white text-decoration-none hover-link">
+                    <i class="fa-solid fa-shield-halved me-1"></i> Admin
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top festive-navbar shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
+                <div class="brand-icon-wrapper me-2">
+                    <i class="fa-solid fa-hands-praying brand-icon"></i>
+                </div>
+                <div>
+                    <span class="brand-title d-block">విఘ్నేశ్వర అన్నదానం</span>
+                    <span class="brand-subtitle d-block">Vinayaka Chavithi Annadanam Finder</span>
+                </div>
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="{{ url_for('index') }}">
+                            <i class="fa-solid fa-house me-1"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="{{ url_for('events') }}">
+                            <i class="fa-solid fa-magnifying-glass-location me-1"></i> Find Food (అన్నదానం)
+                        </a>
+                    </li>
+                    
+                    <!-- 9 Days Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-calendar-days me-1"></i> 9 Days Schedule
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow border-0 py-2">
+                            <li class="dropdown-header text-uppercase fw-bold text-warning small">Vinayaka Navaratri Days</li>
+                            {% for day_item in festival_days %}
+                            <li>
+                                <a class="dropdown-item py-2" href="{{ url_for('events', day=day_item.day) }}">
+                                    <span class="badge bg-warning text-dark me-2">{{ day_item.day }}</span>
+                                    <span class="small">{{ day_item.title }}</span>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="{{ url_for('about') }}">
+                            <i class="fa-solid fa-circle-question me-1"></i> About
+                        </a>
+                    </li>
+
+                    <!-- Post Annadanam CTA button -->
+                    <li class="nav-item ms-lg-2 my-2 my-lg-0">
+                        <a class="btn btn-donate shadow-sm" href="{{ url_for('submit_annadanam') }}">
+                            <i class="fa-solid fa-plus-circle me-1"></i> Post Annadanam
+                        </a>
+                    </li>
+
+                    <!-- Donor / Auth Menu -->
+                    {% if is_donor_logged_in %}
+                    <li class="nav-item dropdown ms-lg-2">
+                        <a class="nav-link dropdown-toggle btn btn-outline-light btn-sm px-3 text-start" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fa-solid fa-user-check me-1"></i> {{ donor_name[:12] }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+                            <li><a class="dropdown-item" href="{{ url_for('donor_dashboard') }}"><i class="fa-solid fa-gauge-high me-2"></i>My Dashboard</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('submit_annadanam') }}"><i class="fa-solid fa-plus me-2"></i>Add New Event</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="{{ url_for('donor_logout') }}"><i class="fa-solid fa-right-from-bracket me-2"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                    {% elif is_admin_logged_in %}
+                    <li class="nav-item ms-lg-2">
+                        <a class="btn btn-sm btn-outline-warning" href="{{ url_for('admin_dashboard') }}">
+                            <i class="fa-solid fa-shield-halved me-1"></i> Admin Panel
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item ms-lg-2">
+                        <a class="nav-link px-3 donor-login-link" href="{{ url_for('donor_login') }}">
+                            <i class="fa-regular fa-circle-user me-1"></i> Donor Login
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages Container -->
+    <div class="container mt-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm border-0 d-flex align-items-center" role="alert">
+                        <div class="me-2">
+                            {% if category == 'success' %}
+                                <i class="fa-solid fa-circle-check fs-5 text-success"></i>
+                            {% elif category == 'danger' %}
+                                <i class="fa-solid fa-circle-exclamation fs-5 text-danger"></i>
+                            {% elif category == 'warning' %}
+                                <i class="fa-solid fa-triangle-exclamation fs-5 text-warning"></i>
+                            {% else %}
+                                <i class="fa-solid fa-circle-info fs-5 text-info"></i>
+                            {% endif %}
+                        </div>
+                        <div class="flex-grow-1">{{ message }}</div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Main Content Area -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Festive Footer -->
+    <footer class="festive-footer text-white pt-5 pb-3 mt-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="brand-icon-wrapper me-2">
+                            <i class="fa-solid fa-hands-praying brand-icon"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-0 text-warning cinzel-font">వినాయక చవితి అన్నదానం</h5>
+                            <span class="small text-white-50">9 Days Annadanam Information & Location Finder</span>
+                        </div>
+                    </div>
+                    <p class="small text-white-50 lh-base">
+                        Connecting generous donors and Ganesha Mandapam organizers with devotees and needy people during the auspicious 9 days of Vinayaka Chavithi. Serving Mahaprasadam to every devotee, preventing food waste, and spreading joy.
+                    </p>
+                    <div class="d-flex gap-2 mt-3">
+                        <span class="badge bg-warning text-dark py-2 px-3 fw-bold">
+                            <i class="fa-solid fa-heart me-1 text-danger"></i> 100% Free Public Service
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="text-warning text-uppercase fw-bold mb-3 small tracking-wider">Quick Links</h6>
+                    <ul class="list-unstyled footer-links small">
+                        <li class="mb-2"><a href="{{ url_for('index') }}"><i class="fa-solid fa-angle-right me-1"></i> Home</a></li>
+                        <li class="mb-2"><a href="{{ url_for('events') }}"><i class="fa-solid fa-angle-right me-1"></i> Search Annadanam</a></li>
+                        <li class="mb-2"><a href="{{ url_for('submit_annadanam') }}"><i class="fa-solid fa-angle-right me-1"></i> Post Food Event</a></li>
+                        <li class="mb-2"><a href="{{ url_for('about') }}"><i class="fa-solid fa-angle-right me-1"></i> About Initiative</a></li>
+                        <li class="mb-2"><a href="{{ url_for('donor_register') }}"><i class="fa-solid fa-angle-right me-1"></i> Donor Register</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="text-warning text-uppercase fw-bold mb-3 small tracking-wider">Popular Districts</h6>
+                    <div class="d-flex flex-wrap gap-1">
+                        {% for dist in popular_districts[:8] %}
+                        <a href="{{ url_for('events', district=dist) }}" class="badge bg-white bg-opacity-10 text-white text-decoration-none px-2 py-1 mb-1 hover-badge">
+                            {{ dist }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="text-warning text-uppercase fw-bold mb-3 small tracking-wider">Organizers & Donors</h6>
+                    <p class="small text-white-50 mb-3">
+                        Are you organizing Annadanam at your Ganesh Mandapam, temple, or community? Share the location so devotees can easily reach.
+                    </p>
+                    <a href="{{ url_for('submit_annadanam') }}" class="btn btn-warning btn-sm fw-bold w-100 py-2">
+                        <i class="fa-solid fa-bullhorn me-1"></i> Register Your Annadanam
+                    </a>
+                    <div class="mt-3 text-center">
+                        <a href="{{ url_for('admin_login') }}" class="text-white-50 small text-decoration-none">
+                            <i class="fa-solid fa-lock me-1"></i> Admin Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="border-warning opacity-25 my-4">
+
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+                    <p class="small text-white-50 mb-0">
+                        &copy; {{ current_year }} Vinayaka Chavithi 9 Days Annadanam Portal. Dedicated to Lord Vinayaka.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <span class="small text-warning fw-semibold">
+                        "అన్నదానం పరమ పవిత్రం - సర్వదానాలలో అన్నదానం మిన్న"
+                    </span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Custom Main JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

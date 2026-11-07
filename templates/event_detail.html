@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ event.organization_pandal or event.donor_name }} - Vinayaka Chavithi Annadanam Details{% endblock %}
+
+{% block content %}
+<div class="py-4 bg-light border-bottom">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb small mb-2">
+                <li class="breadcrumb-item"><a href="{{ url_for('index') }}" class="text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('events') }}" class="text-decoration-none">Annadanam Directory</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ event.village_mandal }}</li>
+            </ol>
+        </nav>
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <div>
+                <span class="badge bg-warning text-dark fw-bold me-2">{{ event.festival_day }}</span>
+                <span class="text-muted small"><i class="fa-regular fa-calendar me-1"></i>{{ event.event_date }}</span>
+                <h2 class="cinzel-font fw-bold text-dark mt-1 mb-0">
+                    {{ event.organization_pandal or event.donor_name }}
+                </h2>
+            </div>
+            <div>
+                {% if event.status == 'Serving Now' %}
+                <span class="badge badge-status-serving fs-6 px-3 py-2">
+                    <span class="pulse-green"></span>Serving Now
+                </span>
+                {% elif event.status == 'Available' %}
+                <span class="badge badge-status-available fs-6 px-3 py-2">Food Available</span>
+                {% else %}
+                <span class="badge badge-status-exhausted fs-6 px-3 py-2">{{ event.status }}</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-4">
+    <div class="row g-4">
+        <!-- Main Event Information -->
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4" style="border: 1px solid #FFE0B2 !important;">
+                <h4 class="fw-bold text-dark mb-3">
+                    <i class="fa-solid fa-utensils text-warning me-2"></i>Mahaprasadam Food Menu
+                </h4>
+                
+                <div class="p-3 rounded-3 mb-4" style="background: #FFFDF9; border-left: 4px solid #E65100;">
+                    <span class="badge bg-danger mb-2">{{ event.food_category }}</span>
+                    <p class="fs-5 mb-1 text-dark fw-semibold lh-base">{{ event.food_details }}</p>
+                    <span class="text-muted small">
+                        <i class="fa-solid fa-people-carry-box text-primary me-1"></i>
+                        <strong>Estimated Quantity:</strong> {{ event.available_quantity }}
+                    </span>
+                </div>
+
+                {% if event.special_notes %}
+                <div class="alert alert-warning border-0 d-flex align-items-center gap-2 py-2 mb-4">
+                    <i class="fa-solid fa-circle-info fs-5 text-warning"></i>
+                    <span class="small"><strong>Organizer Note:</strong> {{ event.special_notes }}</span>
+                </div>
+                {% endif %}
+
+                <h5 class="fw-bold text-dark mb-3">
+                    <i class="fa-regular fa-clock text-warning me-2"></i>Distribution Timings & Day
+                </h5>
+                <div class="row g-3 mb-4">
+                    <div class="col-sm-6">
+                        <div class="border rounded-3 p-3 bg-light">
+                            <span class="text-muted small d-block">Festival Day</span>
+                            <span class="fw-bold text-danger">{{ event.festival_day }}</span>
+                            <span class="small text-secondary d-block">{{ event.event_date }}</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="border rounded-3 p-3 bg-light">
+                            <span class="text-muted small d-block">Timings</span>
+                            <span class="fw-bold text-dark">{{ event.distribution_timings }}</span>
+                            <span class="small text-success d-block"><i class="fa-solid fa-clock-rotate-left me-1"></i>Scheduled Window</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h5 class="fw-bold text-dark mb-3">
+                    <i class="fa-solid fa-location-dot text-danger me-2"></i>Location & Address Details
+                </h5>
+                <div class="border rounded-3 p-3 bg-light mb-4">
+                    <div class="mb-2">
+                        <strong class="text-dark">{{ event.complete_address }}</strong>
+                    </div>
+                    <div class="text-muted small mb-1">
+                        <i class="fa-solid fa-compass me-1 text-secondary"></i>Landmark: <strong>{{ event.landmark or 'Not specified' }}</strong>
+                    </div>
+                    <div class="text-muted small">
+                        <i class="fa-solid fa-city me-1 text-secondary"></i>Area / Mandal: <strong>{{ event.village_mandal }}</strong> | District: <strong>{{ event.district }}</strong>, {{ event.state }}
+                    </div>
+                </div>
+
+                <!-- Google Maps Directions Primary Action -->
+                <div class="d-grid gap-2 mb-3">
+                    <a href="{{ event.google_maps_url }}" target="_blank" class="btn btn-directions btn-lg py-3 shadow-sm">
+                        <i class="fa-solid fa-diamond-turn-right me-2"></i> Open in Google Maps (Get Turn-by-Turn Directions)
+                    </a>
+                </div>
+
+                <!-- Social Share / Spread the word -->
+                <div class="border-top pt-3 d-flex flex-wrap justify-content-between align-items-center gap-2">
+                    <span class="small text-muted">
+                        <i class="fa-solid fa-eye me-1"></i> {{ event.views_count or 1 }} views
+                    </span>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-success btn-sm btn-share-event" 
+                                data-title="Vinayaka Chavithi Annadanam at {{ event.village_mandal }}"
+                                data-text="🙏 Vinayaka Chavithi Annadanam: Free food distribution at {{ event.organization_pandal or event.donor_name }}, {{ event.village_mandal }}, {{ event.district }}. Timings: {{ event.distribution_timings }}. Menu: {{ event.food_details }}."
+                                data-url="{{ request.url }}">
+                            <i class="fa-solid fa-share-nodes me-1"></i> Share Location
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Contact Card & Organizer Info -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4" style="background: linear-gradient(180deg, #FFFDF9 0%, #FFF8E1 100%); border: 1px solid #FFE082 !important;">
+                <h5 class="fw-bold text-dark mb-3">
+                    <i class="fa-solid fa-id-card text-warning me-2"></i>Organizer & Donor Details
+                </h5>
+
+                <div class="text-center mb-3">
+                    <div class="d-inline-flex p-3 rounded-circle bg-white text-danger shadow-sm fs-2 mb-2">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <h6 class="fw-bold text-dark mb-0">{{ event.donor_name }}</h6>
+                    {% if event.organization_pandal %}
+                    <span class="small text-muted">{{ event.organization_pandal }}</span>
+                    {% endif %}
+                </div>
+
+                <hr class="opacity-25 my-3">
+
+                <div class="d-grid gap-2 mb-3">
+                    <a href="tel:{{ event.mobile_number }}" class="btn btn-call py-2">
+                        <i class="fa-solid fa-phone me-2"></i> Call: {{ event.mobile_number }}
+                    </a>
+                    {% if event.whatsapp_number %}
+                    <a href="https://api.whatsapp.com/send?phone=91{{ event.whatsapp_number }}&text={{ 'Hello, I would like to know more about the Vinayaka Chavithi Annadanam at ' ~ event.village_mandal | urlencode }}" target="_blank" class="btn btn-whatsapp py-2">
+                        <i class="fa-brands fa-whatsapp me-2"></i> WhatsApp Organizer
+                    </a>
+                    {% endif %}
+                </div>
+
+                <div class="p-3 bg-white rounded-3 shadow-sm border small text-muted">
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                        <i class="fa-solid fa-shield-heart text-success"></i>
+                        <span class="fw-semibold text-dark">Verified Annadanam Center</span>
+                    </div>
+                    <span>Please maintain cleanliness and follow temple/pandal guidelines while visiting.</span>
+                </div>
+            </div>
+
+            <!-- Related Events in Same District -->
+            {% if related_events %}
+            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white">
+                <h6 class="fw-bold text-secondary mb-3 small text-uppercase">
+                    <i class="fa-solid fa-map-pin text-danger me-1"></i> More Food in {{ event.district }}
+                </h6>
+                {% for rel in related_events %}
+                <div class="mb-3 pb-2 border-bottom last-border-none">
+                    <a href="{{ url_for('event_detail', event_id=rel.id) }}" class="text-decoration-none text-dark fw-bold small d-block">
+                        {{ rel.organization_pandal or rel.donor_name }}
+                    </a>
+                    <span class="text-muted small d-block">{{ rel.village_mandal }} • {{ rel.festival_day }}</span>
+                    <span class="text-danger small">{{ rel.food_category }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

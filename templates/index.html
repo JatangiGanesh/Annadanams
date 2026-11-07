@@ -1,0 +1,310 @@
+{% extends 'base.html' %}
+
+{% block title %}Vinayaka Chavithi 9 Days Annadanam Information and Location Finder{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section position-relative">
+    <div class="container">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-7 text-center text-lg-start">
+                <div class="hero-badge mb-3">
+                    <i class="fa-solid fa-om me-2 text-danger"></i>
+                    <span>Vinayaka Navaratri Special • 9 Days of Divine Food Giving</span>
+                </div>
+                <h1 class="hero-title mb-3">
+                    Vinayaka Chavithi <br class="d-none d-md-inline">
+                    <span class="text-warning-emphasis" style="color: #E65100;">9 Days Annadanam</span> Finder
+                </h1>
+                <p class="hero-subtitle mb-4">
+                    Find and share free Mahaprasadam food distribution locations during the auspicious 9 days of Ganesh Utsav. Connecting donors, pandals, and devotees with real-time location and Google Maps directions.
+                </p>
+
+                <!-- Quick Stats Badges -->
+                <div class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-3 mb-4">
+                    <div class="stat-box px-3 py-2">
+                        <div class="stat-num fs-4">{{ total_events }}</div>
+                        <div class="stat-label small">Active Food Centers</div>
+                    </div>
+                    <div class="stat-box px-3 py-2 border-success-subtle bg-success-subtle bg-opacity-25">
+                        <div class="stat-num fs-4 text-success">
+                            <span class="pulse-green"></span>{{ serving_now_count }}
+                        </div>
+                        <div class="stat-label small text-success-emphasis fw-bold">Serving Now</div>
+                    </div>
+                    <div class="stat-box px-3 py-2">
+                        <div class="stat-num fs-4 text-primary">{{ districts_count }}</div>
+                        <div class="stat-label small">Districts Covered</div>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-wrap gap-2 justify-content-center justify-content-lg-start">
+                    <a href="#searchSection" class="btn btn-warning fw-bold px-4 py-2 shadow-sm">
+                        <i class="fa-solid fa-magnifying-glass me-2"></i> Find Nearby Food
+                    </a>
+                    <a href="{{ url_for('submit_annadanam') }}" class="btn btn-outline-danger fw-bold px-4 py-2">
+                        <i class="fa-solid fa-plus-circle me-2"></i> Register Your Annadanam
+                    </a>
+                </div>
+            </div>
+
+            <!-- Hero Graphic / Sacred Card -->
+            <div class="col-lg-5">
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden" style="background: linear-gradient(145deg, #FFF8E1 0%, #FFE0B2 100%); border: 2px solid #FFD54F !important;">
+                    <div class="p-4 text-center">
+                        <div class="mb-3">
+                            <div class="d-inline-flex p-3 rounded-circle bg-white shadow-sm text-warning fs-1">
+                                <i class="fa-solid fa-hands-praying" style="color: #E65100;"></i>
+                            </div>
+                        </div>
+                        <h4 class="cinzel-font text-danger fw-bold mb-1">అన్నదాత సుఖీభవ</h4>
+                        <p class="text-muted small mb-3">Service to Humanity is Service to Lord Vinayaka</p>
+                        
+                        <div class="bg-white rounded-3 p-3 shadow-sm text-start mb-3">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <i class="fa-solid fa-circle-check text-success"></i>
+                                <span class="small fw-semibold">Real-time Food Quantity & Status</span>
+                            </div>
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <i class="fa-solid fa-circle-check text-success"></i>
+                                <span class="small fw-semibold">1-Click Google Maps Turn-by-Turn Directions</span>
+                            </div>
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <i class="fa-solid fa-circle-check text-success"></i>
+                                <span class="small fw-semibold">Direct Donor Call & WhatsApp Contact</span>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-circle-check text-success"></i>
+                                <span class="small fw-semibold">Organized across 9 Days of Vinayaka Navaratri</span>
+                            </div>
+                        </div>
+
+                        <a href="{{ url_for('events') }}" class="btn btn-danger w-100 py-2 fw-bold shadow-sm">
+                            <i class="fa-solid fa-map-location-dot me-2"></i> Explore All Food Distribution Centers
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 9 Days Festival Filter Bar -->
+<section class="py-3 bg-white border-bottom shadow-sm">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+            <span class="small fw-bold text-uppercase text-secondary">
+                <i class="fa-solid fa-filter me-1 text-warning"></i> Select Festival Day:
+            </span>
+            <a href="{{ url_for('events') }}" class="small text-decoration-none text-danger fw-bold">
+                View All <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+        <div class="days-pills-wrapper d-flex gap-2">
+            <a href="{{ url_for('events') }}" class="day-pill-btn {% if not selected_day %}active{% endif %}">
+                <i class="fa-solid fa-calendar-check"></i> All Days
+            </a>
+            {% for d in festival_days %}
+            <a href="{{ url_for('events', day=d.day) }}" class="day-pill-btn {% if selected_day == d.day %}active{% endif %}">
+                <span class="badge bg-warning-subtle text-dark">{{ d.day }}</span>
+                <span>{{ d.title.split('(')[0] }}</span>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Main Search Section -->
+<section id="searchSection" class="py-5">
+    <div class="container">
+        <div class="text-center mb-4">
+            <h2 class="cinzel-font fw-bold text-dark mb-1">
+                <i class="fa-solid fa-magnifying-glass-location text-warning me-2"></i>Find Annadanam Near You
+            </h2>
+            <p class="text-muted small">Search by city, mandal, district, or food category to reach the nearest distribution point</p>
+        </div>
+
+        <!-- Search Box -->
+        <div class="search-box-card mb-5">
+            <form action="{{ url_for('events') }}" method="GET" class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label small fw-bold text-secondary">Search Keyword / Landmark</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-search text-muted"></i></span>
+                        <input type="text" name="q" class="form-control border-start-0" placeholder="e.g. Khairatabad, Dilsukhnagar, Pulihora...">
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label small fw-bold text-secondary">Select District</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-city text-muted"></i></span>
+                        <select name="district" class="form-select border-start-0">
+                            <option value="">All Districts</option>
+                            {% for dist in popular_districts %}
+                            <option value="{{ dist }}">{{ dist }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label small fw-bold text-secondary">Festival Day</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-calendar-day text-muted"></i></span>
+                        <select name="day" class="form-select border-start-0">
+                            <option value="">All 9 Days</option>
+                            {% for d in festival_days %}
+                            <option value="{{ d.day }}">{{ d.day }} - {{ d.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-warning w-100 py-2 fw-bold shadow-sm">
+                        <i class="fa-solid fa-search me-1"></i> Search
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Interactive Map Section -->
+        <div class="mb-5">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <div>
+                    <h4 class="fw-bold mb-0">
+                        <i class="fa-solid fa-map-location-dot text-danger me-2"></i>Live Interactive Annadanam Map
+                    </h4>
+                    <span class="text-muted small">Tap on any marker to view the pandal name, menu, and navigate via Google Maps</span>
+                </div>
+                <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 fw-semibold">
+                    <i class="fa-solid fa-satellite-dish me-1"></i> Live Geo-Pins
+                </span>
+            </div>
+            <div id="annadanamMap"></div>
+        </div>
+
+        <!-- Featured / Active Annadanam Events -->
+        <div>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h3 class="cinzel-font fw-bold mb-0">
+                        <i class="fa-solid fa-fire text-warning me-2"></i>Featured & Active Annadanam Events
+                    </h3>
+                    <span class="text-muted small">Verified food distributions for Vinayaka Chavithi</span>
+                </div>
+                <a href="{{ url_for('events') }}" class="btn btn-outline-danger btn-sm fw-bold">
+                    View All ({{ total_events }}) <i class="fa-solid fa-chevron-right ms-1"></i>
+                </a>
+            </div>
+
+            <div class="row g-4">
+                {% for event in featured_events %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="annadanam-card h-100">
+                        <div class="card-banner d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="badge bg-warning text-dark fw-bold me-1">{{ event.festival_day }}</span>
+                                <span class="small text-muted"><i class="fa-regular fa-calendar me-1"></i>{{ event.event_date }}</span>
+                            </div>
+                            <div>
+                                {% if event.status == 'Serving Now' %}
+                                <span class="badge badge-status-serving">
+                                    <span class="pulse-green"></span>Serving Now
+                                </span>
+                                {% elif event.status == 'Available' %}
+                                <span class="badge badge-status-available">Available</span>
+                                {% else %}
+                                <span class="badge badge-status-exhausted">{{ event.status }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold text-dark mb-1">
+                                <a href="{{ url_for('event_detail', event_id=event.id) }}" class="text-decoration-none text-dark hover-title">
+                                    {{ event.organization_pandal or event.donor_name }}
+                                </a>
+                            </h5>
+                            <p class="text-muted small mb-2">
+                                <i class="fa-solid fa-location-dot text-danger me-1"></i>
+                                <strong>{{ event.village_mandal }}</strong>, {{ event.district }}
+                            </p>
+
+                            <div class="food-menu-box">
+                                <div class="small fw-bold text-danger mb-1">
+                                    <i class="fa-solid fa-bowl-rice me-1"></i>{{ event.food_category }}:
+                                </div>
+                                <div class="text-dark small text-truncate-2">
+                                    {{ event.food_details }}
+                                </div>
+                            </div>
+
+                            <div class="small text-secondary mb-3">
+                                <div><i class="fa-regular fa-clock text-warning me-1"></i><strong>Timing:</strong> {{ event.distribution_timings }}</div>
+                                <div><i class="fa-solid fa-people-group text-primary me-1"></i><strong>Quantity:</strong> {{ event.available_quantity }}</div>
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="d-grid gap-2">
+                                <a href="{{ event.google_maps_url }}" target="_blank" class="btn btn-directions btn-sm py-2">
+                                    <i class="fa-solid fa-diamond-turn-right me-1"></i> Google Maps Directions
+                                </a>
+                                <div class="d-flex gap-2">
+                                    <a href="tel:{{ event.mobile_number }}" class="btn btn-call btn-sm flex-grow-1 py-1">
+                                        <i class="fa-solid fa-phone me-1"></i> Call Donor
+                                    </a>
+                                    <a href="{{ url_for('event_detail', event_id=event.id) }}" class="btn btn-outline-secondary btn-sm flex-grow-1 py-1">
+                                        Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="text-center mt-5">
+                <a href="{{ url_for('events') }}" class="btn btn-danger btn-lg px-5 py-2 fw-bold shadow">
+                    <i class="fa-solid fa-magnifying-glass-location me-2"></i> Browse All Annadanam Locations
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Donors Callout Section -->
+<section class="py-5 bg-light border-top">
+    <div class="container">
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden" style="background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);">
+            <div class="card-body p-4 p-md-5">
+                <div class="row align-items-center g-4">
+                    <div class="col-lg-8">
+                        <div class="badge bg-danger text-white mb-2 px-3 py-1 fw-bold">For Ganesh Pandals & Donors</div>
+                        <h3 class="cinzel-font fw-bold text-dark mb-2">Are you distributing Prasadam or Meals?</h3>
+                        <p class="text-secondary mb-0">
+                            Register your Annadanam details on this platform so thousands of devotees, pilgrims, and people in need can locate your food distribution venue easily without confusion or food getting wasted.
+                        </p>
+                    </div>
+                    <div class="col-lg-4 text-lg-end">
+                        <a href="{{ url_for('submit_annadanam') }}" class="btn btn-danger btn-lg fw-bold px-4 py-2 shadow">
+                            <i class="fa-solid fa-bullhorn me-2"></i> Register Annadanam Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/map.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        initAnnadanamMap('annadanamMap');
+    });
+</script>
+{% endblock %}

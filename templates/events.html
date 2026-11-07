@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+
+{% block title %}Search Annadanam Events - Vinayaka Chavithi 9 Days Food Finder{% endblock %}
+
+{% block content %}
+<div class="py-4 bg-light border-bottom">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb small mb-2">
+                <li class="breadcrumb-item"><a href="{{ url_for('index') }}" class="text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Find Annadanam</li>
+            </ol>
+        </nav>
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <div>
+                <h2 class="cinzel-font fw-bold text-dark mb-0">
+                    <i class="fa-solid fa-bowl-food text-warning me-2"></i>Annadanam Food Distribution Directory
+                </h2>
+                <span class="text-muted small">Explore free food distribution events organized during the 9 days of Vinayaka Chavithi</span>
+            </div>
+            <a href="{{ url_for('submit_annadanam') }}" class="btn btn-warning btn-sm fw-bold px-3 py-2 shadow-sm">
+                <i class="fa-solid fa-plus-circle me-1"></i> Register New Event
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container py-4">
+    <!-- Filter Card -->
+    <div class="card border-0 shadow-sm rounded-4 mb-4" style="background: #FFFDF9; border: 1px solid #FFE0B2 !important;">
+        <div class="card-body p-3 p-md-4">
+            <form action="{{ url_for('events') }}" method="GET" class="row g-3">
+                <div class="col-lg-3 col-md-6">
+                    <label class="form-label small fw-bold text-secondary">Search Keyword</label>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-white"><i class="fa-solid fa-search text-muted"></i></span>
+                        <input type="text" name="q" value="{{ current_filters.q }}" class="form-control" placeholder="Pandal name, donor, landmark...">
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+                    <label class="form-label small fw-bold text-secondary">District</label>
+                    <select name="district" class="form-select form-select-sm">
+                        <option value="">All Districts</option>
+                        {% for dist in districts %}
+                        <option value="{{ dist }}" {% if current_filters.district == dist %}selected{% endif %}>{{ dist }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+                    <label class="form-label small fw-bold text-secondary">Festival Day</label>
+                    <select name="day" class="form-select form-select-sm">
+                        <option value="">All 9 Days</option>
+                        {% for d in festival_days %}
+                        <option value="{{ d.day }}" {% if current_filters.day == d.day %}selected{% endif %}>{{ d.day }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+                    <label class="form-label small fw-bold text-secondary">Food Category</label>
+                    <select name="category" class="form-select form-select-sm">
+                        <option value="">All Categories</option>
+                        <option value="Full Meals" {% if current_filters.category == 'Full Meals' %}selected{% endif %}>Full Meals Prasadam</option>
+                        <option value="Pulihara" {% if 'Pulihara' in current_filters.category %}selected{% endif %}>Pulihara & Pongali</option>
+                        <option value="Tiffin" {% if current_filters.category == 'Tiffin' %}selected{% endif %}>Tiffin & Breakfast</option>
+                        <option value="Sweets" {% if 'Sweets' in current_filters.category %}selected{% endif %}>Sweets & Laddu</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-1 col-md-6">
+                    <label class="form-label small fw-bold text-secondary">Status</label>
+                    <select name="status" class="form-select form-select-sm">
+                        <option value="">All</option>
+                        <option value="Serving Now" {% if current_filters.status == 'Serving Now' %}selected{% endif %}>Serving Now</option>
+                        <option value="Available" {% if current_filters.status == 'Available' %}selected{% endif %}>Available</option>
+                        <option value="Exhausted" {% if current_filters.status == 'Exhausted' %}selected{% endif %}>Exhausted</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-2 col-md-6 d-flex align-items-end gap-2">
+                    <button type="submit" class="btn btn-danger btn-sm w-100 py-2 fw-bold">
+                        <i class="fa-solid fa-filter me-1"></i> Apply
+                    </button>
+                    <a href="{{ url_for('events') }}" class="btn btn-outline-secondary btn-sm py-2" title="Reset Filters">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Results Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-secondary fw-semibold small">
+            Found <strong class="text-danger">{{ events|length }}</strong> Annadanam distribution points
+            {% if current_filters.district %} in <strong>{{ current_filters.district }}</strong>{% endif %}
+            {% if current_filters.day %} for <strong>{{ current_filters.day }}</strong>{% endif %}
+        </span>
+    </div>
+
+    {% if events %}
+    <div class="row g-4">
+        {% for event in events %}
+        <div class="col-lg-4 col-md-6">
+            <div class="annadanam-card h-100">
+                <div class="card-banner d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="badge bg-warning text-dark fw-bold me-1">{{ event.festival_day }}</span>
+                        <span class="small text-muted"><i class="fa-regular fa-calendar me-1"></i>{{ event.event_date }}</span>
+                    </div>
+                    <div>
+                        {% if event.status == 'Serving Now' %}
+                        <span class="badge badge-status-serving">
+                            <span class="pulse-green"></span>Serving Now
+                        </span>
+                        {% elif event.status == 'Available' %}
+                        <span class="badge badge-status-available">Available</span>
+                        {% else %}
+                        <span class="badge badge-status-exhausted">{{ event.status }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-dark mb-1">
+                        <a href="{{ url_for('event_detail', event_id=event.id) }}" class="text-decoration-none text-dark hover-title">
+                            {{ event.organization_pandal or event.donor_name }}
+                        </a>
+                    </h5>
+                    <p class="text-muted small mb-2">
+                        <i class="fa-solid fa-location-dot text-danger me-1"></i>
+                        <strong>{{ event.village_mandal }}</strong>, {{ event.district }}
+                        {% if event.landmark %}
+                        <span class="d-block text-secondary small"><i class="fa-solid fa-compass me-1 text-muted"></i>{{ event.landmark }}</span>
+                        {% endif %}
+                    </p>
+
+                    <div class="food-menu-box">
+                        <div class="small fw-bold text-danger mb-1">
+                            <i class="fa-solid fa-bowl-rice me-1"></i>{{ event.food_category }}:
+                        </div>
+                        <div class="text-dark small">
+                            {{ event.food_details }}
+                        </div>
+                    </div>
+
+                    <div class="small text-secondary mb-3">
+                        <div><i class="fa-regular fa-clock text-warning me-1"></i><strong>Timing:</strong> {{ event.distribution_timings }}</div>
+                        <div><i class="fa-solid fa-people-group text-primary me-1"></i><strong>Quantity:</strong> {{ event.available_quantity }}</div>
+                        <div><i class="fa-solid fa-user text-muted me-1"></i><strong>Donor:</strong> {{ event.donor_name }}</div>
+                    </div>
+
+                    <!-- Action buttons -->
+                    <div class="d-grid gap-2">
+                        <a href="{{ event.google_maps_url }}" target="_blank" class="btn btn-directions btn-sm py-2">
+                            <i class="fa-solid fa-diamond-turn-right me-1"></i> Google Maps Directions
+                        </a>
+                        <div class="d-flex gap-2">
+                            <a href="tel:{{ event.mobile_number }}" class="btn btn-call btn-sm flex-grow-1 py-1">
+                                <i class="fa-solid fa-phone me-1"></i> Call
+                            </a>
+                            {% if event.whatsapp_number %}
+                            <a href="https://api.whatsapp.com/send?phone=91{{ event.whatsapp_number }}&text={{ 'Hello, I am inquiring about the Vinayaka Chavithi Annadanam at ' ~ event.village_mandal | urlencode }}" target="_blank" class="btn btn-whatsapp btn-sm flex-grow-1 py-1">
+                                <i class="fa-brands fa-whatsapp me-1"></i> WhatsApp
+                            </a>
+                            {% endif %}
+                            <a href="{{ url_for('event_detail', event_id=event.id) }}" class="btn btn-outline-secondary btn-sm py-1">
+                                View
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-5 bg-white rounded-4 shadow-sm border p-4">
+        <div class="display-3 text-warning mb-3">
+            <i class="fa-solid fa-utensils"></i>
+        </div>
+        <h4 class="fw-bold text-dark">No Annadanam Events Found</h4>
+        <p class="text-muted small mb-4">No food distribution centers matched your selected filters. Try broadening your search or choosing another festival day or district.</p>
+        <div class="d-flex justify-content-center gap-2">
+            <a href="{{ url_for('events') }}" class="btn btn-danger btn-sm px-4 py-2 fw-bold">
+                Clear Filters
+            </a>
+            <a href="{{ url_for('submit_annadanam') }}" class="btn btn-warning btn-sm px-4 py-2 fw-bold">
+                Register An Annadanam In This Area
+            </a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

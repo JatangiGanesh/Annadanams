@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Donor Registration - Vinayaka Chavithi Annadanam Finder{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5" style="border: 1px solid #FFE0B2 !important;">
+                <div class="text-center mb-4">
+                    <div class="d-inline-flex p-3 rounded-circle bg-warning bg-opacity-25 text-danger fs-2 mb-2">
+                        <i class="fa-solid fa-hands-praying"></i>
+                    </div>
+                    <h3 class="cinzel-font fw-bold text-dark mb-1">Donor Registration</h3>
+                    <p class="text-muted small">Register an account to manage your Annadanam events, update food quantities, and live status.</p>
+                </div>
+
+                <form action="{{ url_for('donor_register') }}" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-secondary">Your Full Name <span class="text-danger">*</span></label>
+                        <input type="text" name="name" class="form-control" placeholder="e.g. Rajesh Kumar" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-secondary">Mobile Number <span class="text-danger">*</span></label>
+                        <input type="tel" name="mobile" class="form-control" placeholder="e.g. 9848012345" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-secondary">Email Address (Optional)</label>
+                        <input type="email" name="email" class="form-control" placeholder="e.g. rajesh@gmail.com">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-secondary">Organization / Mandapam Name</label>
+                        <input type="text" name="organization" class="form-control" placeholder="e.g. Sri Ganesh Youth Association">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-secondary">Create Password <span class="text-danger">*</span></label>
+                        <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold text-secondary">Confirm Password <span class="text-danger">*</span></label>
+                        <input type="password" name="confirm_password" class="form-control" placeholder="••••••••" required>
+                    </div>
+
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-danger py-2 fw-bold shadow-sm">
+                            <i class="fa-solid fa-user-plus me-1"></i> Register as Annadanam Donor
+                        </button>
+                    </div>
+
+                    <div class="text-center small text-muted">
+                        Already have an account? <a href="{{ url_for('donor_login') }}" class="text-danger fw-bold">Login here</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}About - Vinayaka Chavithi 9 Days Annadanam Initiative{% endblock %}
+
+{% block content %}
+<div class="py-4 bg-light border-bottom">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb small mb-2">
+                <li class="breadcrumb-item"><a href="{{ url_for('index') }}" class="text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">About Initiative</li>
+            </ol>
+        </nav>
+        <h2 class="cinzel-font fw-bold text-dark mb-0">
+            <i class="fa-solid fa-hands-praying text-warning me-2"></i>About Vinayaka Chavithi Annadanam Finder
+        </h2>
+        <span class="text-muted small">Promoting social service, encouraging food donation, and eliminating food wastage</span>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row g-5 align-items-center mb-5">
+        <div class="col-lg-7">
+            <div class="hero-badge mb-3">
+                <i class="fa-solid fa-heart me-1 text-danger"></i> Divine Mission & Social Service
+            </div>
+            <h3 class="cinzel-font fw-bold text-dark mb-3">
+                "సర్వదానాలలో అన్నదానం మిన్న - అన్నదాత సుఖీభవ"
+            </h3>
+            <p class="text-secondary lh-lg mb-3">
+                Vinayaka Chavithi (Ganesh Chaturthi) is celebrated with immense devotion and enthusiasm across millions of mandapams, temples, and communities for 9 to 11 days. During this divine period, thousands of generous donors, youth associations, and spiritual trusts organize <strong>Annadanam (free food distribution)</strong>.
+            </p>
+            <p class="text-secondary lh-lg mb-4">
+                However, many devotees, travelers, daily wage workers, students, and families are unaware of where and when Annadanam is being served in their nearby area. At the same time, organizers often struggle with estimating visitor count, leading either to shortage or heartbreaking food wastage.
+            </p>
+            <div class="p-3 rounded-3 bg-warning bg-opacity-10 border border-warning">
+                <strong class="text-dark d-block mb-1">Our Core Objective:</strong>
+                <span class="small text-secondary">
+                    To provide a seamless, free, community-powered digital platform connecting food donors with devotees and people in need, equipped with exact location tracking and 1-click Google Maps navigation.
+                </span>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card border-0 shadow rounded-4 p-4 text-center" style="background: linear-gradient(145deg, #FFF8E1 0%, #FFE0B2 100%); border: 2px solid #FFD54F !important;">
+                <div class="fs-1 text-warning mb-2">
+                    <i class="fa-solid fa-om" style="color: #E65100;"></i>
+                </div>
+                <h4 class="fw-bold text-danger cinzel-font mb-2">9 Days Navaratri Significance</h4>
+                <p class="small text-muted mb-3">Traditional sacred offerings during Vinayaka Chavithi</p>
+                <div class="text-start bg-white p-3 rounded-3 shadow-sm small text-secondary">
+                    <div class="mb-2"><strong>Day 1 (Chavithi):</strong> Ganesha Prathishta & Modaka Prasadam</div>
+                    <div class="mb-2"><strong>Day 2-4:</strong> Undrallu, Kudumulu & Chintapandu Pulihara</div>
+                    <div class="mb-2"><strong>Day 5-7:</strong> Bellam Pongali, Sundal, Daddojanam & Fruits</div>
+                    <div class="mb-2"><strong>Day 8 (Ashtami):</strong> Maha Naivedyam & Laddu Prasadam</div>
+                    <div><strong>Day 9 (Navami):</strong> Maha Annadanam Meals & Visarjan Seva</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Impact Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-4 text-center">
+                <div class="d-inline-flex p-3 rounded-circle bg-danger bg-opacity-10 text-danger fs-2 mx-auto mb-3">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                </div>
+                <h5 class="fw-bold text-dark">Easy Location Access</h5>
+                <p class="text-muted small mb-0">Visitors easily discover nearest Annadanam venues by district, area, and day with direct Google Maps directions.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-4 text-center">
+                <div class="d-inline-flex p-3 rounded-circle bg-success bg-opacity-10 text-success fs-2 mx-auto mb-3">
+                    <i class="fa-solid fa-wheat-awn-circle-exclamation"></i>
+                </div>
+                <h5 class="fw-bold text-dark">Zero Food Wastage</h5>
+                <p class="text-muted small mb-0">Real-time status updates allow donors to broadcast when food is serving or exhausted, optimizing food distribution.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-4 text-center">
+                <div class="d-inline-flex p-3 rounded-circle bg-warning bg-opacity-10 text-warning fs-2 mx-auto mb-3">
+                    <i class="fa-solid fa-hands-holding-child"></i>
+                </div>
+                <h5 class="fw-bold text-dark">Community Empowerment</h5>
+                <p class="text-muted small mb-0">Encourages youth clubs, temples, and families to register their seva and serve nutritious food to maximum devotees.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Best Practices for Annadanam Organizers -->
+    <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5" style="border: 1px solid #FFE0B2 !important;">
+        <h4 class="cinzel-font fw-bold text-dark mb-3">
+            <i class="fa-solid fa-clipboard-check text-warning me-2"></i>Guidelines for Annadanam Donors & Volunteers
+        </h4>
+        <div class="row g-3 text-secondary small">
+            <div class="col-md-6">
+                <div class="d-flex gap-2">
+                    <i class="fa-solid fa-check text-success mt-1"></i>
+                    <div><strong>Maintain Cleanliness & Hygiene:</strong> Wear caps/aprons, ensure clean drinking water stations, and cover food items.</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex gap-2">
+                    <i class="fa-solid fa-check text-success mt-1"></i>
+                    <div><strong>Use Eco-Friendly Dining Plates:</strong> Prefer traditional banana plantain leaves or areca nut leaf plates rather than single-use plastics.</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex gap-2">
+                    <i class="fa-solid fa-check text-success mt-1"></i>
+                    <div><strong>Separate Lines for Elderly & Children:</strong> Provide priority seating and assistance for senior citizens and differently-abled devotees.</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex gap-2">
+                    <i class="fa-solid fa-check text-success mt-1"></i>
+                    <div><strong>Keep Status Updated:</strong> Update your event status to "Serving Now" when serving begins and "Exhausted" once distribution concludes.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

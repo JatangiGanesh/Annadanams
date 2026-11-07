@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+
+{% block title %}Register Your Annadanam Event - Vinayaka Chavithi Food Finder{% endblock %}
+
+{% block content %}
+<div class="py-4 bg-light border-bottom">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb small mb-2">
+                <li class="breadcrumb-item"><a href="{{ url_for('index') }}" class="text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Post Annadanam</li>
+            </ol>
+        </nav>
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <div>
+                <h2 class="cinzel-font fw-bold text-dark mb-0">
+                    <i class="fa-solid fa-bullhorn text-warning me-2"></i>Post Your Annadanam Event Details
+                </h2>
+                <span class="text-muted small">Share your food distribution location with devotees and people in need during Vinayaka Chavithi</span>
+            </div>
+            {% if not is_donor_logged_in %}
+            <a href="{{ url_for('donor_login') }}" class="btn btn-outline-danger btn-sm">
+                <i class="fa-solid fa-right-to-bracket me-1"></i> Already have a Donor Account? Login
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5" style="border: 1px solid #FFE0B2 !important;">
+                
+                <div class="alert alert-warning border-0 rounded-3 mb-4 d-flex align-items-center gap-3">
+                    <div class="fs-3 text-warning">
+                        <i class="fa-solid fa-hands-praying"></i>
+                    </div>
+                    <div>
+                        <strong class="text-dark">అన్నదాత సుఖీభవ (Annadata Sukhibhava)</strong>
+                        <p class="small text-secondary mb-0">
+                            By publishing your Annadanam location, you help thousands of devotees and underprivileged citizens reach your venue easily and prevent precious food from going to waste.
+                        </p>
+                    </div>
+                </div>
+
+                <form action="{{ url_for('submit_annadanam') }}" method="POST">
+                    <!-- SECTION 1: Donor & Organizer Information -->
+                    <h5 class="fw-bold text-danger border-bottom pb-2 mb-3">
+                        <i class="fa-solid fa-user me-2"></i>1. Organizer & Contact Details
+                    </h5>
+                    
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-secondary">Donor / Contact Person Name <span class="text-danger">*</span></label>
+                            <input type="text" name="donor_name" class="form-control" value="{{ form_data.donor_name or (donor_name if is_donor_logged_in else '') }}" placeholder="e.g. K. Venkata Rao" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-secondary">Organization / Pandal / Mandapam Name</label>
+                            <input type="text" name="organization_pandal" class="form-control" value="{{ form_data.organization_pandal or '' }}" placeholder="e.g. Sri Siddhi Vinayaka Youth Association">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-secondary">Primary Mobile Number <span class="text-danger">*</span></label>
+                            <input type="tel" name="mobile_number" class="form-control" value="{{ form_data.mobile_number or session.get('donor_mobile', '') }}" placeholder="e.g. 9848012345" required>
+                            <span class="text-muted" style="font-size: 0.78rem;">Visitors will call this number if they need help locating the food counter</span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-secondary">WhatsApp Number (Optional)</label>
+                            <input type="tel" name="whatsapp_number" class="form-control" value="{{ form_data.whatsapp_number or '' }}" placeholder="e.g. 9848012345">
+                        </div>
+                    </div>
+
+                    <!-- SECTION 2: Food & Quantity Details -->
+                    <h5 class="fw-bold text-danger border-bottom pb-2 mb-3">
+                        <i class="fa-solid fa-bowl-food me-2"></i>2. Food Menu & Estimated Quantity
+                    </h5>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-secondary">Food Category <span class="text-danger">*</span></label>
+                            <select name="food_category" class="form-select" required>
+                                <option value="Full Meals Prasadam" {% if form_data.food_category == 'Full Meals Prasadam' %}selected{% endif %}>Full Meals Prasadam (Rice, Sambar, Sweet, Curd)</option>
+                                <option value="Pulihara & Pongali" {% if form_data.food_category == 'Pulihara & Pongali' %}selected{% endif %}>Pulihara & Pongali</option>
+                                <option value="Tiffin & Breakfast Prasadam" {% if form_data.food_category == 'Tiffin & Breakfast Prasadam' %}selected{% endif %}>Tiffin & Breakfast Prasadam</option>
+                                <option value="Sweets, Laddu & Snacks" {% if form_data.food_category == 'Sweets, Laddu & Snacks' %}selected{% endif %}>Sweets, Laddu & Snacks</option>
+                                <option value="Packaged Food Distribution" {% if form_data.food_category == 'Packaged Food Distribution' %}selected{% endif %}>Packaged Food Packets</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-secondary">Available Quantity (Approximate) <span class="text-danger">*</span></label>
+                            <input type="text" name="available_quantity" class="form-control" value="{{ form_data.available_quantity or '' }}" placeholder="e.g. 500 Plates, 1000 Devotees, or Unlimited" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label small fw-bold text-secondary">Detailed Food Menu Items <span class="text-danger">*</span></label>
+                            <textarea name="food_details" class="form-control" rows="2" placeholder="e.g. Hot Sambar Rice, Chintapandu Pulihara, Bellam Pongali, Laddu, Buttermilk" required>{{ form_data.food_details or '' }}</textarea>
+                            <span class="text-muted" style="font-size: 0.78rem;">Listing the menu items helps devotees and families plan their visit</span>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label small fw-bold text-secondary">Special Arrangements / Notes</label>
+                            <input type="text" name="special_notes" class="form-control" value="{{ form_data.special_notes or '' }}" placeholder="e.g. Dining seating arranged under tent, clean drinking water provided, takeaway available">
+                        </div>
+                    </div>
+
+                    <!-- SECTION 3: Festival Day & Timings -->
+                    <h5 class="fw-bold text-danger border-bottom pb-2 mb-3">
+                        <i class="fa-regular fa-calendar-check me-2"></i>3. Schedule & Timings
+                    </h5>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-secondary">Festival Day <span class="text-danger">*</span></label>
+                            <select name="festival_day" class="form-select" required>
+                                {% for d in festival_days %}
+                                <option value="{{ d.day }}" {% if form_data.festival_day == d.day %}selected{% endif %}>{{ d.day }} ({{ d.title }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-secondary">Event Date <span class="text-danger">*</span></label>
+                            <input type="date" name="event_date" class="form-control" value="{{ form_data.event_date or '' }}" required>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-secondary">Distribution Timings <span class="text-danger">*</span></label>
+                            <input type="text" name="distribution_timings" class="form-control" value="{{ form_data.distribution_timings or '' }}" placeholder="e.g. 12:30 PM - 3:30 PM" required>
+                        </div>
+                    </div>
+
+                    <!-- SECTION 4: Location & Google Maps -->
+                    <h5 class="fw-bold text-danger border-bottom pb-2 mb-3">
+                        <i class="fa-solid fa-map-location-dot me-2"></i>4. Distribution Location & Google Maps
+                    </h5>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-secondary">State <span class="text-danger">*</span></label>
+                            <select name="state" class="form-select" required>
+                                <option value="Telangana">Telangana</option>
+                                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                <option value="Karnataka">Karnataka</option>
+                                <option value="Maharashtra">Maharashtra</option>
+                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-secondary">District <span class="text-danger">*</span></label>
+                            <input type="text" name="district" class="form-control" list="districtSuggestions" value="{{ form_data.district or '' }}" placeholder="e.g. Hyderabad, Visakhapatnam..." required>
+                            <datalist id="districtSuggestions">
+                                {% for d in popular_districts %}
+                                <option value="{{ d }}"></option>
+                                {% endfor %}
+                            </datalist>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-secondary">Village / Mandal / Town / Area <span class="text-danger">*</span></label>
+                            <input type="text" name="village_mandal" class="form-control" value="{{ form_data.village_mandal or '' }}" placeholder="e.g. Khairatabad, Dilsukhnagar, MVP Colony" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label small fw-bold text-secondary">Complete Address <span class="text-danger">*</span></label>
+                            <textarea name="complete_address" class="form-control" rows="2" placeholder="e.g. Pandal Ground, Opposite Community Hall, Street No 4" required>{{ form_data.complete_address or '' }}</textarea>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-secondary">Nearest Landmark</label>
+                            <input type="text" name="landmark" class="form-control" value="{{ form_data.landmark or '' }}" placeholder="e.g. Near Metro Pillar 114, Beside Hanuman Temple">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-secondary">Google Maps Location Link</label>
+                            <div class="input-group">
+                                <input type="url" name="google_maps_url" id="google_maps_url" class="form-control" value="{{ form_data.google_maps_url or '' }}" placeholder="e.g. https://maps.app.goo.gl/xyz or leave empty">
+                                <button type="button" id="btnDetectLocation" class="btn btn-outline-danger" title="Detect GPS coordinates">
+                                    <i class="fa-solid fa-location-crosshairs me-1"></i> Detect GPS
+                                </button>
+                            </div>
+                            <div id="locationDetectStatus" class="mt-1"></div>
+                        </div>
+
+                        <!-- Hidden GPS coordinates -->
+                        <input type="hidden" name="latitude" id="latitude" value="{{ form_data.latitude or '' }}">
+                        <input type="hidden" name="longitude" id="longitude" value="{{ form_data.longitude or '' }}">
+                    </div>
+
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-danger btn-lg py-3 fw-bold shadow">
+                            <i class="fa-solid fa-paper-plane me-2"></i> Submit & Publish Annadanam Event
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

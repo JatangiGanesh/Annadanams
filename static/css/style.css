@@ -1,0 +1,387 @@
+/* Vinayaka Chavithi Annadanam Finder - Custom Festive Styles */
+
+:root {
+    --primary-saffron: #E65100;
+    --primary-orange: #FF6F00;
+    --primary-amber: #FFA000;
+    --primary-gold: #FFD54F;
+    --festive-crimson: #B71C1C;
+    --festive-maroon: #4A148C;
+    --dark-bg: #1A120B;
+    --card-shadow: 0 8px 24px rgba(230, 81, 0, 0.08);
+    --card-shadow-hover: 0 16px 32px rgba(230, 81, 0, 0.16);
+    --border-radius: 12px;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: #FFFDF9;
+    color: #2D3748;
+    overflow-x: hidden;
+}
+
+.cinzel-font {
+    font-family: 'Cinzel', serif;
+}
+
+/* Sacred Top Bar */
+.top-sacred-bar {
+    background: linear-gradient(90deg, #B71C1C 0%, #E65100 50%, #B71C1C 100%);
+    color: #FFF9C4;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+.sacred-quote {
+    color: #FFFDE7;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+.hover-link {
+    transition: opacity 0.2s;
+    opacity: 0.9;
+}
+.hover-link:hover {
+    opacity: 1;
+    color: #FFE082 !important;
+}
+
+/* Festive Navbar */
+.festive-navbar {
+    background: linear-gradient(135deg, #E65100 0%, #D84315 100%);
+    border-bottom: 2px solid #FFD54F;
+}
+.brand-icon-wrapper {
+    background: #FFF;
+    color: #E65100;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.brand-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #FFF;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+}
+.brand-subtitle {
+    font-size: 0.72rem;
+    color: #FFE082;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+.nav-link {
+    color: #FFF8E1 !important;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+.nav-link:hover {
+    color: #FFECB3 !important;
+    transform: translateY(-1px);
+}
+.btn-donate {
+    background: linear-gradient(135deg, #FFC107 0%, #FFA000 100%);
+    color: #3E2723;
+    font-weight: 700;
+    border: none;
+    padding: 0.5rem 1.15rem;
+    border-radius: 50px;
+    transition: all 0.25s ease;
+}
+.btn-donate:hover {
+    background: linear-gradient(135deg, #FFD54F 0%, #FFB300 100%);
+    color: #211202;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(255, 160, 0, 0.4);
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(180deg, #FFF3E0 0%, #FFFDF9 100%);
+    position: relative;
+    padding: 3.5rem 0 2.5rem;
+    border-bottom: 1px solid #FFE0B2;
+}
+.hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: radial-gradient(#FFE0B2 1px, transparent 1px);
+    background-size: 24px 24px;
+    opacity: 0.4;
+    pointer-events: none;
+}
+.hero-badge {
+    background-color: #FFF8E1;
+    color: #D84315;
+    border: 1px solid #FFD54F;
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+}
+.hero-title {
+    font-family: 'Cinzel', serif;
+    font-size: 2.75rem;
+    font-weight: 800;
+    color: #B71C1C;
+    line-height: 1.25;
+}
+.hero-subtitle {
+    font-size: 1.15rem;
+    color: #4A5568;
+    line-height: 1.6;
+}
+
+/* Hero Search Card */
+.search-box-card {
+    background: #FFFFFF;
+    border-radius: var(--border-radius);
+    box-shadow: 0 12px 36px rgba(230, 81, 0, 0.12);
+    border: 1px solid #FFE0B2;
+    padding: 1.5rem;
+    position: relative;
+    z-index: 2;
+}
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label {
+    color: #E65100;
+}
+.form-control:focus, .form-select:focus {
+    border-color: #FFA000;
+    box-shadow: 0 0 0 0.25rem rgba(255, 160, 0, 0.2);
+}
+
+/* 9 Days Nav Pills */
+.days-pills-wrapper {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 0.5rem;
+    scrollbar-width: thin;
+}
+.day-pill-btn {
+    border-radius: 50px;
+    padding: 0.45rem 1.1rem;
+    font-weight: 600;
+    font-size: 0.88rem;
+    border: 1px solid #FFE082;
+    background: #FFF;
+    color: #5D4037;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+.day-pill-btn:hover, .day-pill-btn.active {
+    background: linear-gradient(135deg, #E65100 0%, #BF360C 100%);
+    color: #FFF !important;
+    border-color: #BF360C;
+    box-shadow: 0 4px 10px rgba(230, 81, 0, 0.25);
+}
+.day-pill-btn.active .badge {
+    background-color: #FFD54F !important;
+    color: #212121 !important;
+}
+
+/* Status Badges & Pulse */
+.pulse-green {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #10B981;
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    animation: pulse 1.8s infinite cubic-bezier(0.66, 0, 0, 1);
+    margin-right: 5px;
+}
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
+}
+.badge-status-serving {
+    background-color: #E8F5E9;
+    color: #1B5E20;
+    border: 1px solid #A5D6A7;
+    font-weight: 700;
+}
+.badge-status-available {
+    background-color: #E3F2FD;
+    color: #0D47A1;
+    border: 1px solid #90CAF9;
+    font-weight: 700;
+}
+.badge-status-exhausted {
+    background-color: #FFEBEE;
+    color: #B71C1C;
+    border: 1px solid #FFCDD2;
+    font-weight: 700;
+}
+
+/* Annadanam Cards */
+.annadanam-card {
+    background: #FFFFFF;
+    border-radius: var(--border-radius);
+    border: 1px solid #FFE0B2;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.annadanam-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--card-shadow-hover);
+    border-color: #FFA000;
+}
+.annadanam-card .card-banner {
+    background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid #FFE0B2;
+}
+.annadanam-card .card-body {
+    padding: 1.25rem;
+    flex-grow: 1;
+}
+.annadanam-card .food-menu-box {
+    background: #FFFDF9;
+    border-left: 3px solid #FF8F00;
+    padding: 0.75rem;
+    border-radius: 4px;
+    margin: 0.75rem 0;
+    font-size: 0.92rem;
+}
+.card-donor-name {
+    font-weight: 700;
+    color: #1A202C;
+}
+
+/* Action Buttons */
+.btn-directions {
+    background: linear-gradient(135deg, #1A73E8 0%, #1557B0 100%);
+    color: white;
+    font-weight: 600;
+    border: none;
+}
+.btn-directions:hover {
+    background: linear-gradient(135deg, #1557B0 0%, #0D47A1 100%);
+    color: white;
+}
+.btn-call {
+    background: #E8F5E9;
+    color: #1B5E20;
+    font-weight: 600;
+    border: 1px solid #A5D6A7;
+}
+.btn-call:hover {
+    background: #C8E6C9;
+    color: #1B5E20;
+}
+.btn-whatsapp {
+    background: #25D366;
+    color: white;
+    font-weight: 600;
+    border: none;
+}
+.btn-whatsapp:hover {
+    background: #1EBE5D;
+    color: white;
+}
+
+/* Stats Counter Box */
+.stat-box {
+    background: #FFF;
+    border: 1px solid #FFE0B2;
+    border-radius: var(--border-radius);
+    padding: 1.25rem 1rem;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(230, 81, 0, 0.05);
+}
+.stat-box .stat-num {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #E65100;
+    line-height: 1;
+}
+.stat-box .stat-label {
+    font-size: 0.85rem;
+    color: #718096;
+    font-weight: 600;
+    margin-top: 0.35rem;
+}
+
+/* Leaflet Map */
+#annadanamMap {
+    height: 480px;
+    width: 100%;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    border: 1px solid #FFE0B2;
+}
+
+/* Custom Marker Popup */
+.leaflet-popup-content-wrapper {
+    border-radius: 12px;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+.leaflet-popup-content {
+    margin: 0;
+    line-height: 1.4;
+}
+.map-popup-header {
+    background: linear-gradient(135deg, #E65100 0%, #D84315 100%);
+    color: #FFF;
+    padding: 0.75rem 1rem;
+}
+.map-popup-body {
+    padding: 1rem;
+}
+
+/* Footer */
+.festive-footer {
+    background: linear-gradient(180deg, #2D1405 0%, #160A03 100%);
+    border-top: 3px solid #FFA000;
+}
+.footer-links a {
+    color: #CBD5E0;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+.footer-links a:hover {
+    color: #FFD54F;
+    padding-left: 4px;
+}
+.hover-badge:hover {
+    background-color: #FFA000 !important;
+    color: #1A120B !important;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 1.85rem;
+    }
+    .hero-section {
+        padding: 2rem 0 1.5rem;
+    }
+    #annadanamMap {
+        height: 350px;
+    }
+}

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Sign In - Vinayaka Chavithi Annadanam Finder{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5 col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5" style="border: 1px solid #FFE0B2 !important;">
+                <div class="text-center mb-4">
+                    <div class="d-inline-flex p-3 rounded-circle bg-dark text-warning fs-2 mb-2">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="cinzel-font fw-bold text-dark mb-1">Admin Portal</h3>
+                    <p class="text-muted small">Verify & Moderate Annadanam Submissions</p>
+                </div>
+
+                <form action="{{ url_for('admin_login') }}" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-secondary">Admin Username</label>
+                        <input type="text" name="username" class="form-control" value="admin" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold text-secondary">Admin Password</label>
+                        <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                        <span class="text-muted small" style="font-size: 0.75rem;">Default Demo Password: <code>admin123</code></span>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-dark py-2 fw-bold shadow-sm">
+                            <i class="fa-solid fa-lock me-1"></i> Sign In as Admin
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
